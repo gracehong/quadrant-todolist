@@ -1,2 +1,2 @@
-# quardrant-todolist
-Contains the code for an Android app that implements a to-do list
+# quadrant-todolist
+This Android app implements a to-do list organized using Covey's quadrant 'time-management' strategy. 
