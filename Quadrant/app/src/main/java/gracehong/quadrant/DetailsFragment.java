@@ -2,6 +2,8 @@ package gracehong.quadrant;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +11,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -20,7 +29,7 @@ import android.view.ViewGroup;
 public class DetailsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-
+    SQLiteDatabase db;
     public DetailsFragment() {
         // Required empty public constructor
     }
@@ -62,12 +71,18 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        db = getActivity().openOrCreateDatabase("myLists", MODE_PRIVATE, null);
+
         String listType = "urgent_important"; //sets default listType to urgent_important
 
         Intent intent = getActivity().getIntent();
         if (intent.hasExtra("list_type")) {
             listType = intent.getStringExtra("list_type");
         }
+
+        TextView listTitle = (TextView) getActivity().findViewById(R.id.list_title);
+        listTitle.setText(listType);
 
         loadList(listType);
     }
@@ -78,6 +93,22 @@ public class DetailsFragment extends Fragment {
      *
      */
     public void loadList(String listType){
+        //query's database
+        ArrayList<String> list = new ArrayList<>();
+
+        String command = "SELECT content FROM tasks WHERE listType = '"+listType+"';";
+        Cursor cursor = db.rawQuery(command, null);
+        while(cursor.moveToNext()){
+            list.add(cursor.getString(0));
+
+        }
+
+        System.out.println("The List Size is :" + list.size());
+        //loads list into array
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
+        ListView listView = (ListView) getActivity().findViewById(R.id.task_list);
+        listView.setAdapter(adapter);
+
 
     }
 
