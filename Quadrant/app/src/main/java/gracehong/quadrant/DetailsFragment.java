@@ -1,8 +1,10 @@
 package gracehong.quadrant;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +49,36 @@ public class DetailsFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+
+    }
+
+    /**
+     * FUNCTION: onActivityCreated
+     * overrides onActivityCreated in order to get any relevant parameters passed in (if buttons
+     * are clicked)
+     * @param savedInstanceState
+     */
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        String listType = "urgent_important"; //sets default listType to urgent_important
+
+        Intent intent = getActivity().getIntent();
+        if (intent.hasExtra("list_type")) {
+            listType = intent.getStringExtra("list_type");
+        }
+
+        loadList(listType);
+    }
+
+    /**
+     * FUNCTION: loadList
+     * @param listType (which list to load from database)
+     *
+     */
+    public void loadList(String listType){
+
     }
 
     @Override
