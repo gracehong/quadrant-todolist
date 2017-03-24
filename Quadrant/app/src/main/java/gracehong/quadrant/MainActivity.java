@@ -1,10 +1,12 @@
 package gracehong.quadrant;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +14,7 @@ import android.widget.Button;
 
 import static android.R.attr.button;
 
-public class MainActivity extends AppCompatActivity implements DetailsFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements AddTaskFragment.OnFragmentInteractionListener, DetailsFragment.OnFragmentInteractionListener{
 
     SQLiteDatabase db;
     boolean addDummyValues = true; //TODO: this is for testing purposes. Remove and rest database!
@@ -41,7 +43,8 @@ public class MainActivity extends AppCompatActivity implements DetailsFragment.O
         }
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-
+            DetailsFragment frag = new DetailsFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.mainActivity_rightFrag, frag).commit();
         }
 
     }
@@ -100,9 +103,22 @@ public class MainActivity extends AppCompatActivity implements DetailsFragment.O
 
     /**
      * FUNCTION: onAddNewItem
-     * creates a custom alertDialogue box that allows the user to add a new item to a list.
+     * Launches addNewTask activity in portrait view, or replaces the detailsFragment with an addTask
+     * fragment in horizontal view
      * @param view
      */
     public void onAddNewItem(View view) {
+
+        //if Portrait: launch fragment in new activity
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            Intent intent = new Intent(this, AddTaskActivity.class);
+            startActivity(intent);
+        }
+
+        //if Landscape: display relevant list
+        else{
+            AddTaskFragment frag = new AddTaskFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.mainActivity_rightFrag, frag).commit();
+        }
     }
 }

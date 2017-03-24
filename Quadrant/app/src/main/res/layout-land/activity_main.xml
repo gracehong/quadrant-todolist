@@ -91,10 +91,22 @@
 
     </LinearLayout>
 
+    <!-- Container for left hand fragment-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:id="@+id/mainActivity_rightFrag">
+
+    </LinearLayout>
+
+    <!--
     <fragment android:name = "gracehong.quadrant.DetailsFragment"
         android:id = "@+id/details_fragment"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
         />
+        -->
 </LinearLayout>
