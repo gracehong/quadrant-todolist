@@ -46,13 +46,15 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:tag="urgent_important"
-                    android:onClick="onShowList"/>
+                    android:onClick="onShowList"
+                    android:id="@+id/urgent_important_button"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:tag="noturgent_important"
-                    android:onClick="onShowList"/>
+                    android:onClick="onShowList"
+                    android:id="@+id/noturgent_important_button"/>
             </LinearLayout>
 
             <LinearLayout
@@ -65,13 +67,15 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:tag="urgent_notimportant"
-                    android:onClick="onShowList"/>
+                    android:onClick="onShowList"
+                    android:id="@+id/urgent_notimportant_button"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:tag="noturgent_notimportant"
-                    android:onClick="onShowList"/>
+                    android:onClick="onShowList"
+                    android:id="@+id/noturgent_notimportant_button"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -91,7 +95,7 @@
 
     </LinearLayout>
 
-    <!-- Container for left hand fragment-->
+    <!-- Container for right hand fragment-->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"

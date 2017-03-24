@@ -2,6 +2,7 @@ package gracehong.quadrant;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -11,7 +12,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,6 +33,9 @@ public class DetailsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     SQLiteDatabase db;
+    ArrayAdapter<String> adapter;
+    ArrayList<String> list;
+
     public DetailsFragment() {
         // Required empty public constructor
     }
@@ -73,17 +79,55 @@ public class DetailsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         db = getActivity().openOrCreateDatabase("myLists", MODE_PRIVATE, null);
-
+        final TextView listTitle = (TextView) getActivity().findViewById(R.id.list_title);
         String listType = "urgent_important"; //sets default listType to urgent_important
 
-        Intent intent = getActivity().getIntent();
-        if (intent.hasExtra("list_type")) {
-            listType = intent.getStringExtra("list_type");
+        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Intent intent = getActivity().getIntent();
+            if (intent.hasExtra("list_type")) {
+                listType = intent.getStringExtra("list_type");
+            }
+        } else {
+            Button UrgImpt = (Button) getActivity().findViewById(R.id.urgent_important_button);
+            UrgImpt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadList("urgent_important");
+                    listTitle.setText("Urgent|Important");
+                }
+            });
+
+            Button UrgNotImpt = (Button) getActivity().findViewById(R.id.urgent_notimportant_button);
+            UrgNotImpt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadList("urgent_notimportant");
+                    listTitle.setText("Urgent|Not Important");
+                }
+            });
+
+            Button NotUrgImpt = (Button) getActivity().findViewById(R.id.noturgent_important_button);
+            NotUrgImpt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadList("noturgent_important");
+                    listTitle.setText("Not Urgent|Important");
+                }
+            });
+
+            Button NotUrgNotImpt = (Button) getActivity().findViewById(R.id.noturgent_notimportant_button);
+            NotUrgNotImpt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadList("noturgent_notimportant");
+                    listTitle.setText("Not Urgent|Not Important");
+                }
+            });
         }
 
-        TextView listTitle = (TextView) getActivity().findViewById(R.id.list_title);
-        listTitle.setText(listType);
-
+        if (listTitle != null) {
+            listTitle.setText(listType);
+        }
         loadList(listType);
     }
 
@@ -93,8 +137,14 @@ public class DetailsFragment extends Fragment {
      *
      */
     public void loadList(String listType){
+
+        if(db == null){
+            db = getActivity().openOrCreateDatabase("myLists", MODE_PRIVATE, null);
+        }
+
         //query's database
-        ArrayList<String> list = new ArrayList<>();
+        list = new ArrayList<>();
+        System.out.println("the list name is "+ listType);
 
         String command = "SELECT content FROM tasks WHERE listType = '"+listType+"';";
         Cursor cursor = db.rawQuery(command, null);
@@ -103,14 +153,24 @@ public class DetailsFragment extends Fragment {
 
         }
 
-        System.out.println("The List Size is :" + list.size());
-        //loads list into array
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
+        //loads list into array and initializes long click listener
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
         ListView listView = (ListView) getActivity().findViewById(R.id.task_list);
-        listView.setAdapter(adapter);
-
-
+        if (listView != null) {
+            listView.setAdapter(adapter);
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    String content = list.get(position);
+                    db.delete("tasks","content=?",new String[]{content});
+                    list.remove(position);
+                    adapter.notifyDataSetChanged();
+                    return false;
+                }
+            });
+        }
     }
+
 
     @Override
     public void onDetach() {

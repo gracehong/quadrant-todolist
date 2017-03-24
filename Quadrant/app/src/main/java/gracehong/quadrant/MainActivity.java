@@ -17,7 +17,6 @@ import static android.R.attr.button;
 public class MainActivity extends AppCompatActivity implements AddTaskFragment.OnFragmentInteractionListener, DetailsFragment.OnFragmentInteractionListener{
 
     SQLiteDatabase db;
-    boolean addDummyValues = true; //TODO: this is for testing purposes. Remove and rest database!
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +29,7 @@ public class MainActivity extends AppCompatActivity implements AddTaskFragment.O
             initializeTaskTable();
         }
 
-        if (addDummyValues){
-            //TODO: remove this, it initializes it to a default for testing
-            String init1 = "INSERT INTO tasks VALUES (NULL,'Today my urgent and important thing is applying for jobs','urgent_important');";
-            String init2 = "INSERT INTO tasks VALUES (NULL,'Today my noturgent and important thing is working on this app','noturgent_important');";
-            String init3 = "INSERT INTO tasks VALUES (NULL,'Today my urgent and notimportant thing is replying to a lot of emails','urgent_notimportant');";
-            String init4 = "INSERT INTO tasks VALUES (NULL,'Today my noturgent and notimportant thing is returning library books','noturgent_notimportant');";
-            db.execSQL(init1);
-            db.execSQL(init2);
-            db.execSQL(init3);
-            db.execSQL(init4);
-        }
-
+        //Initializes Details fragment if in horizontal view
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             DetailsFragment frag = new DetailsFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.mainActivity_rightFrag, frag).commit();
@@ -80,8 +68,6 @@ public class MainActivity extends AppCompatActivity implements AddTaskFragment.O
         Button button = (Button) view;
         String tag = button.getTag().toString();
 
-        System.out.println("The activity selected was "+ tag);
-
         //if Portrait: launch fragment in new activity
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             Intent intent = new Intent(this, DetailsActivity.class);
@@ -91,8 +77,10 @@ public class MainActivity extends AppCompatActivity implements AddTaskFragment.O
 
         //if Landscape: display relevant list
         else{
-            DetailsFragment details = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.details_fragment);
-            details.loadList(tag);
+           // DetailsFragment details = new DetailsFragment();
+           // getSupportFragmentManager().beginTransaction().replace(R.id.mainActivity_rightFrag, details).commit();
+            //details.loadList(tag);
+            //fragment handles clicks to button
         }
     }
 
@@ -120,5 +108,10 @@ public class MainActivity extends AppCompatActivity implements AddTaskFragment.O
             AddTaskFragment frag = new AddTaskFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.mainActivity_rightFrag, frag).commit();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

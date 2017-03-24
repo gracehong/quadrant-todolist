@@ -16,22 +16,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Task to complete:"
-            android:textSize="18dp"/>
+            android:textSize="18dp"
+            android:layout_weight="1"
+            android:gravity="center"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Task..."/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Category:"
-            android:textSize="18dp"/>
-        <Spinner
+            android:hint="Task..."
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@+id/task_input"
+            />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/category_spinner">
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Urgent"
+                android:textSize="18dp"
+                android:id="@+id/urgent_checkbox"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Important"
+                android:textSize="18dp"
+                android:id="@+id/important_checkbox"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Item"
+                android:id="@+id/addFinishedItem"
+                android:paddingRight="50dp"
+                android:paddingLeft="50dp"/>
+        </LinearLayout>
 
-        </Spinner>
 
     </LinearLayout>
 
