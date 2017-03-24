@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity implements DetailsFragment.O
             db.execSQL(init4);
         }
 
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+
+        }
+
     }
 
     /**
@@ -84,12 +88,21 @@ public class MainActivity extends AppCompatActivity implements DetailsFragment.O
 
         //if Landscape: display relevant list
         else{
-
+            DetailsFragment details = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.details_fragment);
+            details.loadList(tag);
         }
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-        //Nothing because I don't care
+        //Nothing
+    }
+
+    /**
+     * FUNCTION: onAddNewItem
+     * creates a custom alertDialogue box that allows the user to add a new item to a list.
+     * @param view
+     */
+    public void onAddNewItem(View view) {
     }
 }

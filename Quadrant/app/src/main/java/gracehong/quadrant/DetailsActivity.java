@@ -18,6 +18,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsFragmen
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-        //Nothing because I don't care
+        //Nothing
     }
+
 }
