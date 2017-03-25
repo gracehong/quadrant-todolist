@@ -45,6 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
+                    android:text="1"
                     android:tag="urgent_important"
                     android:onClick="onShowList"
                     android:id="@+id/urgent_important_button"/>
@@ -52,6 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
+                    android:text="2"
                     android:tag="noturgent_important"
                     android:onClick="onShowList"
                     android:id="@+id/noturgent_important_button"/>
@@ -67,6 +69,7 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:tag="urgent_notimportant"
+                    android:text="3"
                     android:onClick="onShowList"
                     android:id="@+id/urgent_notimportant_button"/>
                 <Button
@@ -74,6 +77,7 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:tag="noturgent_notimportant"
+                    android:text="4"
                     android:onClick="onShowList"
                     android:id="@+id/noturgent_notimportant_button"/>
             </LinearLayout>

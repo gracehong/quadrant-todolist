@@ -61,7 +61,7 @@ public class AddTaskFragment extends Fragment {
     }
 
     /**
-     * Initialize on Click listeners
+     * Initialize on Click listeners and database
      * @param savedInstanceState
      */
     @Override
@@ -129,7 +129,7 @@ public class AddTaskFragment extends Fragment {
 
     /**
      * FUNCTION: exitFrag
-     * Function (called by the cancel button and addItem button) that exits the fragment in different
+     * Function (called addItem button) that exits the fragment in different
      * ways depending on screen orientation
      */
     private void exitFrag(){

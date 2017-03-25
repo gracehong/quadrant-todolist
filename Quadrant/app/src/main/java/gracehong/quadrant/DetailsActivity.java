@@ -7,6 +7,9 @@ import android.os.Bundle;
 
 import static java.security.AccessController.getContext;
 
+/**
+ * Wrapper activity for the details fragment in portrait view
+ */
 public class DetailsActivity extends AppCompatActivity implements DetailsFragment.OnFragmentInteractionListener {
 
     @Override

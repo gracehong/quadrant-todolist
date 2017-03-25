@@ -1,5 +1,18 @@
 package gracehong.quadrant;
 
+/**
+ * APP TITLE: "Quadrant"
+ * DESCRIPTION: A todolist/prioritorization app that organizes your tasks by Urgency and Importance,
+ * a strategy pioneered by Steven Covey in his book '7 habits of highly effective people'.
+ * FEATURES:
+ * Fragments take care of different orientations (landscape versus portrait)
+ * Persistent storage in SQLite database
+ * Ability to long-click on an item in the listView to remove it
+ * Ability to scroll through lists of to-dos in details fragment
+ *
+ * Grace Hong, hw7, ghong97, CS193A Winter 2017 Instructor: Marty Stepp
+ */
+
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -18,6 +31,11 @@ public class MainActivity extends AppCompatActivity implements AddTaskFragment.O
 
     SQLiteDatabase db;
 
+    /**
+     * FUNCTION: onCreate
+     * Overrides onCreate function to initialize database and set up beginning vview
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +82,12 @@ public class MainActivity extends AppCompatActivity implements AddTaskFragment.O
     }
 
 
+    /**
+     * FUNCTION:onShowList
+     * onClick function that shows a detailed list in another activity (portrait) or next to the
+     * main Activity (landscape)
+     * @param view
+     */
     public void onShowList(View view) {
         Button button = (Button) view;
         String tag = button.getTag().toString();
@@ -110,8 +134,4 @@ public class MainActivity extends AppCompatActivity implements AddTaskFragment.O
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }

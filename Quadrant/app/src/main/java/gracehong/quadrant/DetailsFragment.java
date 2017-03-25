@@ -71,7 +71,7 @@ public class DetailsFragment extends Fragment {
     /**
      * FUNCTION: onActivityCreated
      * overrides onActivityCreated in order to get any relevant parameters passed in (if buttons
-     * are clicked)
+     * are clicked) (portrait mode), or set onClick listeners (if in horizontal mode)
      * @param savedInstanceState
      */
     @Override
@@ -82,57 +82,93 @@ public class DetailsFragment extends Fragment {
         final TextView listTitle = (TextView) getActivity().findViewById(R.id.list_title);
         String listType = "urgent_important"; //sets default listType to urgent_important
 
+        //Portrait View: retrieves intents from calling activity
         if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             Intent intent = getActivity().getIntent();
             if (intent.hasExtra("list_type")) {
                 listType = intent.getStringExtra("list_type");
             }
-        } else {
+        }
+
+        //Landscape View: sets onClick listeners for different buttons
+        else {
+
+            //onClick for urgent/important
             Button UrgImpt = (Button) getActivity().findViewById(R.id.urgent_important_button);
-            UrgImpt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    loadList("urgent_important");
-                    listTitle.setText("Urgent|Important");
-                }
-            });
+            if (UrgImpt!= null) {
+                UrgImpt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadList("urgent_important");
+                        listTitle.setText("Urgent|Important");
+                    }
+                });
+            }
 
+            //onClick for urgent/notImportant
             Button UrgNotImpt = (Button) getActivity().findViewById(R.id.urgent_notimportant_button);
-            UrgNotImpt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    loadList("urgent_notimportant");
-                    listTitle.setText("Urgent|Not Important");
-                }
-            });
+            if(UrgNotImpt != null) {
+                UrgNotImpt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadList("urgent_notimportant");
+                        listTitle.setText("Urgent|Not Important");
+                    }
+                });
+            }
 
+            //onClick for notUrgent/important
             Button NotUrgImpt = (Button) getActivity().findViewById(R.id.noturgent_important_button);
-            NotUrgImpt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    loadList("noturgent_important");
-                    listTitle.setText("Not Urgent|Important");
-                }
-            });
+            if (NotUrgImpt != null) {
+                NotUrgImpt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadList("noturgent_important");
+                        listTitle.setText("Not Urgent|Important");
+                    }
+                });
+            }
 
+            //onClick for notUrgent/notImportant
             Button NotUrgNotImpt = (Button) getActivity().findViewById(R.id.noturgent_notimportant_button);
-            NotUrgNotImpt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    loadList("noturgent_notimportant");
-                    listTitle.setText("Not Urgent|Not Important");
-                }
-            });
+            if(NotUrgNotImpt != null) {
+                NotUrgNotImpt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadList("noturgent_notimportant");
+                        listTitle.setText("Not Urgent|Not Important");
+                    }
+                });
+            }
         }
 
         if (listTitle != null) {
-            listTitle.setText(listType);
+            String listTitleStr = parseListTitle(listType);
+            listTitle.setText(listTitleStr);
         }
         loadList(listType);
     }
 
     /**
+     * FUNCTION: parseListTitle
+     * parses the listType (tag) into a listTitle by formatting it nicely
+     * @param listType
+     * @return
+     */
+    private String parseListTitle(String listType){
+        if (listType.equals("urgent_important")){
+            return "Urgent|Important";
+        } else if (listType.equals("urgent_notimportant")){
+            return "Urgent|NotImportant";
+        } else if (listType.equals("noturgent_important")){
+            return "NotUrgent|Important";
+        } else {
+            return "NotUrgent|NotImportant";
+        }
+    }
+    /**
      * FUNCTION: loadList
+     * Loads a list from the database into the list structure, adds it to the screen using an array adapter
      * @param listType (which list to load from database)
      *
      */
